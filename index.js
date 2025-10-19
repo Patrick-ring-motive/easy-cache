@@ -41,5 +41,25 @@ const EasyCache = (()=>{
         }
       })();
     }
+    async match(...args){
+      try{
+        const url = String(args[0].url ?? args[0]);
+        return await this[$setCache].match(url,
+      }catch(e){
+        console.warn(e);
+      }
+    }
+    async matchAll(){
+      return [];
+    }
+    async add(){}
+    async addAll(){}
+    async put(){}
+    async delete(){
+      return false;
+    }
+    async keys(){
+      return []
+    }
   }
 })();
