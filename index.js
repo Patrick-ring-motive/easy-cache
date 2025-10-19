@@ -70,7 +70,7 @@ const EasyCache = (()=>{
         const options = args[1] ?? {};
         options.ignoreMethod ??= true;
         options.ignoreVary ??= true;
-        return (await this[$getCache].matchAll(url,options)).map(x=>x?.clone?.());
+        return (await (this[$getCache].matchAll??this[$setCache].matchAll)(url,options)).map(x=>x?.clone?.());
       }catch(e){
         console.warn(e);
         return [];
