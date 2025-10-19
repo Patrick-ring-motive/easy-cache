@@ -104,7 +104,7 @@ const EasyCache = (()=>{
           this[$init] = await this[$init];
         }
         const url = String(req.url ?? req);
-        return await this[$setCache](url,res?.clone?.() ?? new Response(res?.body ?? res,res ?? {}));
+        return await this[$setCache].put(url,res?.clone?.() ?? new Response(res?.body ?? res,res ?? {}));
       }catch(e){
         console.warn(e);
         return false;
