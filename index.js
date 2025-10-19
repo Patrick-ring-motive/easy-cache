@@ -32,12 +32,18 @@ const EasyCache = (()=>{
             const $cache = caches.default ?? await caches.open('default');
             $this[$getCache] = $cache;
             $this[$setCache] = $cache;
+            return $this;
           }
+            const $cache = caches.default ?? await caches.open(String(args[0]));
+            $this[$getCache] = $cache;
+            $this[$setCache] = $cache;
+            return $this;
         }catch(e){
           console.warn(e);
           const dummy = new _DummyCache();
           $this[$getCache] = dummy;
           $this[$setCache] = dummy;
+          return $this;
         }
       })();
     }
@@ -98,17 +104,41 @@ const EasyCache = (()=>{
           init = await init;
         }
         const url = String(req.url ?? req);
-        return await this[$setCache](url,res?.clone?.() ?? new Response(res));
+        return await this[$setCache](url,res?.clone?.() ?? new Response(res?.body ?? res,res ?? {}));
       }catch(e){
         console.warn(e);
         return false;
       }
     }
-    async delete(){
-      return false;
+    async delete(...args){
+      try{
+        if(isPromise(init)){
+          init = await init;
+        }
+        const url = String(args[0].url ?? args[0]);
+        const options = args[1] ?? {};
+        options.ignoreMethod ??= true;
+        options.ignoreVary ??= true;
+        return await this[$setCache].delete(url,options);
+      }catch(e){
+        console.warn(e);
+        return false;
+      }
     }
-    async keys(){
-      return []
+    async keys(...args){
+      try{
+        if(isPromise(init)){
+          init = await init;
+        }
+        const url = String(args[0].url ?? args[0]);
+        const options = args[1] ?? {};
+        options.ignoreMethod ??= true;
+        options.ignoreVary ??= true;
+        return (await this[$getCache].keys(url,options)).map(x=>x?.clone?.());
+      }catch(e){
+        console.warn(e);
+        return [];
+      }
     }
   }
 })();
