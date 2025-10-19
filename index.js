@@ -49,8 +49,8 @@ const EasyCache = (()=>{
     }
     async match(...args){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const url = String(args[0].url ?? args[0]);
         const options = args[1] ?? {};
@@ -63,8 +63,8 @@ const EasyCache = (()=>{
     }
     async matchAll(...args){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const url = String(args[0].url ?? args[0]);
         const options = args[1] ?? {};
@@ -78,8 +78,8 @@ const EasyCache = (()=>{
     }
     async add(...args){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const url = String(args[0].url ?? args[0]);
         return await this[$setCache].add(url);
@@ -89,8 +89,8 @@ const EasyCache = (()=>{
     }
     async addAll(...args){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const urls = args[0].map(x=>String(x?.url ?? x));
         return await this[$setCache].addAll(urls);
@@ -100,8 +100,8 @@ const EasyCache = (()=>{
     }
     async put(req,res){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const url = String(req.url ?? req);
         return await this[$setCache](url,res?.clone?.() ?? new Response(res?.body ?? res,res ?? {}));
@@ -112,8 +112,8 @@ const EasyCache = (()=>{
     }
     async delete(...args){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const url = String(args[0].url ?? args[0]);
         const options = args[1] ?? {};
@@ -127,8 +127,8 @@ const EasyCache = (()=>{
     }
     async keys(...args){
       try{
-        if(isPromise(init)){
-          init = await init;
+        if(isPromise(this[$init])){
+          this[$init] = await this[$init];
         }
         const url = String(args[0].url ?? args[0]);
         const options = args[1] ?? {};
