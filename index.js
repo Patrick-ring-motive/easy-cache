@@ -43,17 +43,55 @@ const EasyCache = (()=>{
     }
     async match(...args){
       try{
+        if(isPromise(init)){
+          init = await init;
+        }
         const url = String(args[0].url ?? args[0]);
-        return await this[$setCache].match(url,
+        const options = args[1] ?? {};
+        options.ignoreMethod ??= true;
+        options.ignoreVary ??= true;
+        return (await this[$getCache].match(url,options))?.clone?.();
       }catch(e){
         console.warn(e);
       }
     }
-    async matchAll(){
-      return [];
+    async matchAll(...args){
+      try{
+        if(isPromise(init)){
+          init = await init;
+        }
+        const url = String(args[0].url ?? args[0]);
+        const options = args[1] ?? {};
+        options.ignoreMethod ??= true;
+        options.ignoreVary ??= true;
+        return (await this[$getCache].matchAll(url,options)).map(x=>x?.clone?.());
+      }catch(e){
+        console.warn(e);
+        return [];
+      }
     }
-    async add(){}
-    async addAll(){}
+    async add(...args){
+      try{
+        if(isPromise(init)){
+          init = await init;
+        }
+        const url = String(args[0].url ?? args[0]);
+        return await this[$setCache].add(url);
+      }catch(e){
+        console.warn(e);
+      }
+    }
+    async addAll(...args){
+      try{
+        if(isPromise(init)){
+          init = await init;
+        }
+        const urls = args[0].map(x=>String(x?.url ?? x));
+        return await this[$setCache].addAll(urls);
+      }catch(e){
+        console.warn(e);
+      }
+    }
     async put(){}
     async delete(){
       return false;
