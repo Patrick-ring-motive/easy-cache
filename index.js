@@ -92,7 +92,18 @@ const EasyCache = (()=>{
         console.warn(e);
       }
     }
-    async put(){}
+    async put(req,res){
+      try{
+        if(isPromise(init)){
+          init = await init;
+        }
+        const url = String(req.url ?? req);
+        return await this[$setCache](url,res?.clone?.() ?? new Response(res));
+      }catch(e){
+        console.warn(e);
+        return false;
+      }
+    }
     async delete(){
       return false;
     }
