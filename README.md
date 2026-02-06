@@ -1,1 +1,2 @@
+# easy-cache ⚡
 # easy-cache
